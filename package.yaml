@@ -21,6 +21,12 @@ description:         Please see the README on GitHub at <https://github.com/alex
 
 dependencies:
 - base >= 4.7 && < 5
+- filepath
+- directory
+- containers
+- mtl
+- parsec
+- raw-strings-qq
 
 library:
   source-dirs: src
