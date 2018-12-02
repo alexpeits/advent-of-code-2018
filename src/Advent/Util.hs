@@ -2,6 +2,7 @@ module Advent.Util
   ( readInput
   , readInputWords
   , readInputLines
+  , printResults
   ) where
 
 import System.FilePath ((</>), (<.>))
@@ -18,4 +19,10 @@ readInputWords = fmap words . readInput
 
 readInputLines :: Int -> IO [String]
 readInputLines = fmap lines . readInput
+
+printResults :: (Show a, Show b) => Int -> a -> b -> IO ()
+printResults day part1 part2 = do
+  putStrLn $ "Day " <> show day <> " results:"
+  putStrLn $ "Part 1: " <> show part1
+  putStrLn $ "Part 2: " <> show part2
 
