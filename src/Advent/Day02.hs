@@ -9,9 +9,6 @@ import Advent.Util
 day :: Int
 day = 2
 
-counter :: Ord a => [a] -> M.Map a Int
-counter xs = M.fromListWith (+) $ zip xs (repeat 1)
-
 part1 :: [String] -> Int
 part1 =
   product
