@@ -57,11 +57,6 @@ part1 =
   . foldl (\m coord -> M.insertWith (+) coord 1 m) M.empty
   . concatMap claimCoords
 
-insertAppend :: Ord a => a -> b -> M.Map a [b] -> M.Map a [b]
-insertAppend k v m =
-  M.insert k (v:v') m
-  where v' = M.findWithDefault [] k m
-
 part2 :: [Claim] -> Int
 part2 cs =
   head $ S.toList $ S.difference singles nonSingles

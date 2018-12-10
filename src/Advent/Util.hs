@@ -1,16 +1,11 @@
-module Advent.Util
-  ( readInput
-  , readInputWords
-  , readInputLines
-  , printResults
-  , parseNum
-  , counter
-  ) where
+{-# LANGUAGE TypeFamilies #-}
+module Advent.Util where
 
 import System.FilePath ((</>), (<.>))
 import Text.Printf (printf)
 
 import qualified Data.Map as M
+import qualified Data.Set as S
 
 import Text.Parsec (many1, digit)
 import Text.Parsec.String (Parser)
@@ -39,3 +34,17 @@ parseNum = read <$> many1 digit
 
 counter :: Ord a => [a] -> M.Map a Int
 counter xs = M.fromListWith (+) $ zip xs (repeat 1)
+
+-- insertAppend :: Ord a => a -> b -> M.Map a [b] -> M.Map a [b]
+-- insertAppend k v m =
+--   M.insert k (v:v') m
+--   where v' = M.findWithDefault [] k m
+
+type family Elem container where
+  Elem [a]       = a
+  Elem (S.Set a) = a
+
+insertWithDefault :: Ord a => (Elem b -> b -> b) -> b -> a -> Elem b -> M.Map a b -> M.Map a b
+insertWithDefault f d k v m =
+  M.insert k (f v v') m
+  where v' = M.findWithDefault d k m
