@@ -1,4 +1,6 @@
 module Main where
 
+import qualified Advent.Day09 as A
+
 main :: IO ()
-main = putStrLn "main"
+main = A.main

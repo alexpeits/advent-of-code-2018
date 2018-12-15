@@ -4,10 +4,11 @@ module Advent.Util where
 import System.FilePath ((</>), (<.>))
 import Text.Printf (printf)
 
+import Control.Monad ((<=<))
 import qualified Data.Map as M
 import qualified Data.Set as S
 
-import Text.Parsec (many1, digit)
+import Text.Parsec (many1, digit, char, (<|>))
 import Text.Parsec.String (Parser)
 
 
@@ -30,7 +31,8 @@ printResults day part1 part2 = do
   putStrLn $ "Part 2: " <> show part2
 
 parseNum :: (Read a, Num a) => Parser a
-parseNum = read <$> many1 digit
+parseNum = (char '-' >> (negate <$> parseNum')) <|> parseNum'
+  where parseNum' = read <$> many1 digit
 
 counter :: Ord a => [a] -> M.Map a Int
 counter xs = M.fromListWith (+) $ zip xs (repeat 1)
@@ -48,3 +50,19 @@ insertWithDefault :: Ord a => (Elem b -> b -> b) -> b -> a -> Elem b -> M.Map a 
 insertWithDefault f d k v m =
   M.insert k (f v v') m
   where v' = M.findWithDefault d k m
+
+-- | Safe list index
+(!?) :: [a] -> Int -> Maybe a
+xs !? i
+  | i >= length xs = Nothing
+  | otherwise     = Just $ xs !! i
+
+infixl 9 !?
+
+-- Run a function n times
+replicate' :: Int -> (a -> a) -> (a -> a)
+replicate' n f = foldr (.) id (replicate n f)
+
+-- Run a monadic effect n times
+replicateM' :: Monad m => Int -> (a -> m a) -> (a -> m a)
+replicateM' n action = foldr (<=<) return (replicate n action)

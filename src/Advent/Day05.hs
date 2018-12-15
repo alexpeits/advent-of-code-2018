@@ -1,5 +1,6 @@
 module Advent.Day05 where
 
+import Data.Maybe (fromJust)
 import qualified Data.Char as C
 import Control.Monad.State.Strict
 
@@ -28,7 +29,7 @@ step = do
     [] -> pure ()
     (x:xs) ->
       if not (opposite focus x)
-      then put $ Z.forward p
+      then put $ Z.forward' p
       else
         case left of
           [] -> put $ Z.MkListZipper [] (head xs) (t xs)
