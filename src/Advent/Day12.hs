@@ -1,5 +1,4 @@
 {-# LANGUAGE QuasiQuotes #-}
-{-# LANGUAGE RecordWildCards #-}
 module Advent.Day12 where
 
 import qualified Data.Map as M
@@ -42,18 +41,24 @@ step :: Rules -> State [Pot] ()
 step rules = do
   pots <- get
   let chunks = map (\i -> take 5 (drop i pots)) [0 .. length pots - 5]
-      -- repl chunk = M.findWithDefault (chunk !! 2) chunk rules
-      repl chunk = rules M.! chunk
+      repl chunk = M.findWithDefault False chunk rules
+      -- repl chunk = rules M.! chunk
       pots' = map repl chunks
-  put $ False : False : pots' ++ replicate 2 False
+  put $ replicate 5 False ++ pots' ++ replicate 5 False
   return ()
+
+part1 :: Int -> Rules -> [Pot] -> Int
+part1 nGen rules pots = sum $ map fst $ filter snd $ zip [-(nGen*3 + 5)..] pots'
+  where
+    pots' = execState (replicateM nGen (step rules)) pots
 
 main :: IO ()
 main = do
   rawInput <- readInputLines day
   let (Right initState) = parse parseInitState "" (head rawInput)
       (Right rules)  = makeRules <$> mapM (parse parseRule "") (drop 2 rawInput)
-  showPots $ execState (step rules) initState
+  -- printResults day (part1 20 rules initState) (part1 50000000000 rules initState)
+  return ()
 
 showPots :: [Pot] -> IO ()
 showPots = putStrLn . map (\x -> if x then '#' else '.')
@@ -85,4 +90,6 @@ test = do
       -- repl chunk = M.findWithDefault (chunk !! 2) chunk rules
       -- pots' = map repl chunks
   -- mapM_ showPots $ chunks
-  showPots $ execState (step rules) initState
+  print $ part1 50000000000 rules initState
+  -- showPots initState
+  -- showPots pots'

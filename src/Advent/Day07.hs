@@ -1,4 +1,3 @@
-{-# LANGUAGE RecordWildCards #-}
 module Advent.Day07 where
 
 import qualified Data.Char as C

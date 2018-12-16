@@ -1,4 +1,3 @@
-{-# LANGUAGE RecordWildCards #-}
 module Advent.Day03 where
 
 import qualified Data.Map.Strict as M

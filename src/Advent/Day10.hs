@@ -1,4 +1,3 @@
-{-# LANGUAGE RecordWildCards #-}
 module Advent.Day10 where
 
 import Control.Monad.State

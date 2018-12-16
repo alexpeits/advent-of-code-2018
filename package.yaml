@@ -31,6 +31,9 @@ dependencies:
 - lens
 - raw-strings-qq
 
+default-extensions:
+- RecordWildCards
+
 library:
   source-dirs: src
 

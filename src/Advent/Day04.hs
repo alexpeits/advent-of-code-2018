@@ -1,4 +1,4 @@
-{-# LANGUAGE RecordWildCards, QuasiQuotes #-}
+{-# LANGUAGE QuasiQuotes #-}
 module Advent.Day04 where
 
 import Data.List (sort, sortOn)

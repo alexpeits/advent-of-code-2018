@@ -5,6 +5,7 @@ import System.FilePath ((</>), (<.>))
 import Text.Printf (printf)
 
 import Control.Monad ((<=<))
+import Data.List (group, sort, nub)
 import qualified Data.Map as M
 import qualified Data.Set as S
 
@@ -66,3 +67,9 @@ replicate' n f = foldr (.) id (replicate n f)
 -- Run a monadic effect n times
 replicateM' :: Monad m => Int -> (a -> m a) -> (a -> m a)
 replicateM' n action = foldr (<=<) return (replicate n action)
+
+removeSame :: Ord a => [a] -> [a]
+removeSame = concat . filter ((== 1) . length) . group . sort
+
+findSame :: Ord a => [a] -> [a]
+findSame = map head . filter ((> 1) . length) . group . sort

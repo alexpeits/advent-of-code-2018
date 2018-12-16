@@ -1,4 +1,3 @@
-{-# LANGUAGE RecordWildCards #-}
 module Advent.Day08 where
 
 import qualified Data.Tree as T
